@@ -18,6 +18,10 @@ It should take a few minutes for the code to push. While you wait, lets enable d
 
 Then at your balena logs you should be able to see the Gps outputs.
 
+```
+NOTE : Please enable uart from balena device configuration page!
+```
+
 
 [balena-link]:https://balena.io/
 [signup-page]:https://dashboard.balena-cloud.com/signup
