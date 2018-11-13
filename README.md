@@ -19,8 +19,9 @@ It should take a few minutes for the code to push. While you wait, lets enable d
 Then at your balena logs you should be able to see the Gps outputs.
 
 ```
-NOTE : Please enable uart from balena device configuration page! ( Screenshot : ![Enable Uart](https://raw.githubusercontent.com/sixfab/balenaCloud/master/enable_uart.png) )
+NOTE : Please enable uart from balena device configuration page!
 ```
+Screenshot : ![Enable Uart](https://raw.githubusercontent.com/sixfab/balenaCloud/master/enable_uart.png)
 
 
 [balena-link]:https://balena.io/
