@@ -2,11 +2,32 @@ import serial
 import os
 import pynmea2
 import RPi.GPIO as GPIO
+import rockBlock
+from rockBlock import rockBlockProtocol
 
 gpsReset = 7
 uartPort = "/dev/serial0"
 
 os.system("systemctl disable serial-getty@ttyS0.service") # Disable getty on ttyS0
+
+class RockBlockClient (rockBlockProtocol):
+    
+    def send(self, msg):
+      
+        rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
+        
+        rb.sendMessage(msg)      
+        
+        rb.close()
+        
+    def rockBlockTxStarted(self):
+        print ("rockBlockTxStarted")
+        
+    def rockBlockTxFailed(self):
+        print ("rockBlockTxFailed")
+        
+    def rockBlockTxSuccess(self,momsn):
+        print ("rockBlockTxSuccess " + str(momsn))
 
 ser = serial.Serial(uartPort, baudrate = 9600, timeout = 1)
 
@@ -30,5 +51,11 @@ while True:
 			print(msg.timestamp)
 			print(msg.latitude)
 			print(msg.longitude)
-	
+
+			if( msg.timestamp.minute == 0 and msg.timestamp.second == 0):
+				person = {'timestamp': str(msg.timestamp), 'lat': msg.latitude, 'lon':msg.longitude}
+				print(str(person))
+				RockBlockClient().send(str(person))
+
+ser.close()
 GPIO.cleanup()
