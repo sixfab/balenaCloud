@@ -58,10 +58,10 @@ while True:
 			print(msg.latitude)
 			print(msg.longitude)
 
-			if( msg.timestamp.minute == 25 and msg.timestamp.second == 00):
+			if( msg.timestamp.minute == 0 and msg.timestamp.second == 0):
 				payload = {'timestamp': str(msg.timestamp), 'lat': msg.latitude, 'lon':msg.longitude}
 				print(str(payload))
-				_thread.start_new_thread( rockblock_service, (payload))
+				_thread.start_new_thread( rockblock_service, (payload,))
 				
 
 ser.close()
