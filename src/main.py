@@ -2,6 +2,7 @@ import serial
 import os
 import pynmea2
 import RPi.GPIO as GPIO
+import _thread
 import rockBlock
 from rockBlock import rockBlockProtocol
 
@@ -29,6 +30,11 @@ class RockBlockClient (rockBlockProtocol):
     def rockBlockTxSuccess(self,momsn):
         print ("rockBlockTxSuccess " + str(momsn))
 
+def rockblock_service(payload):
+	print("RockBlock Thread Started...")
+	RockBlockClient().send(str(payload))
+	print("RockBlock Thread Finished...")
+
 ser = serial.Serial(uartPort, baudrate = 9600, timeout = 1)
 
 if(ser.isOpen() == False):
@@ -52,10 +58,11 @@ while True:
 			print(msg.latitude)
 			print(msg.longitude)
 
-			if( msg.timestamp.minute == 0 and msg.timestamp.second == 0):
-				person = {'timestamp': str(msg.timestamp), 'lat': msg.latitude, 'lon':msg.longitude}
-				print(str(person))
-				RockBlockClient().send(str(person))
+			if( msg.timestamp.minute == 0 and msg.timestamp.second == 12):
+				payload = {'timestamp': str(msg.timestamp), 'lat': msg.latitude, 'lon':msg.longitude}
+				print(str(payload))
+				_thread.start_new_thread( rockblock_service, (payload))
+				
 
 ser.close()
 GPIO.cleanup()
