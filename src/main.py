@@ -55,7 +55,7 @@ while True:
 			print(recv)
 			msg=pynmea2.parse(recv)
 
-			if( msg.qual ):
+			if( msg.gps_qual ):
 				print(msg.timestamp)
 				print(msg.latitude)
 				print(msg.longitude)
