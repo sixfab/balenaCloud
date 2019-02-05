@@ -54,14 +54,19 @@ while True:
 		if recv.startswith("$GPGGA"):
 			print(recv)
 			msg=pynmea2.parse(recv)
-			print(msg.timestamp)
-			print(msg.latitude)
-			print(msg.longitude)
 
-			if( msg.timestamp.minute == 0 and msg.timestamp.second == 0):
-				payload = {'timestamp': str(msg.timestamp), 'lat': msg.latitude, 'lon':msg.longitude}
-				print(str(payload))
-				_thread.start_new_thread( rockblock_service, (payload,))
+			if( msg.qual ):
+				print(msg.timestamp)
+				print(msg.latitude)
+				print(msg.longitude)
+
+				if( msg.timestamp.minute == 0 and msg.timestamp.second == 0):
+					payload = {'timestamp': str(msg.timestamp), 'lat': msg.latitude, 'lon':msg.longitude}
+					print(str(payload))
+					_thread.start_new_thread( rockblock_service, (payload,))
+
+			else:
+				print("Waiting for GPS 3D Fix")
 				
 
 ser.close()
