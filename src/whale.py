@@ -10,6 +10,7 @@ from rockBlock import rockBlockProtocol
 delay = 0
 gpsLat = 0
 gpsLon = 0
+targetMinute = 0
 gpsTimestamp = 0
 gpsMinute = -1
 gpsSecond = -1
@@ -71,6 +72,10 @@ def sendToServer():
 
 
 def setParameter():
+
+	global delay
+	global targetMinute
+
 	if push_interval == 0:
 		print("Please set PUSH_INTERVAL env variable")
 		exit()
