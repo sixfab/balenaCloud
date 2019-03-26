@@ -20,8 +20,10 @@ uartPort = "/dev/serial0"
 
 os.system("systemctl disable serial-getty@ttyS0.service") # Disable getty on ttyS0
 
-
+os.environ('PUSH_INTERVAL', 7)
 push_interval = int(os.getenv('PUSH_INTERVAL', 0))
+
+
 
 class RockBlockClient (rockBlockProtocol):
 
@@ -179,7 +181,7 @@ while True:
 			
 			sendToServer()
 
-	if gpsMinute== 15 and gpsSecond == 0:
+	if ( ( gpsMinute % 15 ) == 0 ) and gpsSecond == 0:
 		RockBlockClient().messageCheck()
 	
 	time.sleep(0.5)
