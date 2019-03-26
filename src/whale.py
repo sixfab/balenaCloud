@@ -40,6 +40,12 @@ class RockBlockClient (rockBlockProtocol):
     def rockBlockTxSuccess(self,momsn):
         print ("rockBlockTxSuccess " + str(momsn))
 
+    def rockBlockRxReceived(self,mtmsn,data):
+        print("rockBlockRxReceived ",str(mtmsn),data)
+        push_interval=int(data)
+
+
+
 def rockblock_service(payload):
 	print("RockBlock Thread Started...")
 	RockBlockClient().send(str(payload))
@@ -49,7 +55,7 @@ def rockblock_service(payload):
 def sendToServer():
 	payload = {'timestamp': str(gpsTimestamp), 'lat': gpsLat, 'lon':gpsLon}
 	print(str(payload))
-        time.sleep(1)
+	time.sleep(1)
 	_thread.start_new_thread( rockblock_service, (payload,))
 
 
