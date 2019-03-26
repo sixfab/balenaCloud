@@ -86,7 +86,6 @@ class RockBlockClient (rockBlockProtocol):
 
 
 RockBlockClient().setParameter()
-RockBlockClient().messageCheck()
 
 def rockblock_service(payload):
 	print("RockBlock Thread Started...")
