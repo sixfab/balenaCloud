@@ -82,6 +82,7 @@ class RockBlockClient (rockBlockProtocol):
     def messageCheck(self):
         rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
         rb.messageCheck()
+		time.sleep(1)
         rb.close()
 
 
@@ -136,6 +137,8 @@ def setParameter():
 		targetMinute = 30
 
 now = int(time.time())
+
+_thread.start_new_thread( rockblock_check, ())
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
