@@ -1,7 +1,7 @@
 import serial
 import os
-#import pynmea2
-#import RPi.GPIO as GPIO
+import pynmea2
+import RPi.GPIO as GPIO
 import _thread
 import rockBlock
 from datetime import datetime
@@ -57,6 +57,8 @@ now = datetime.now()
 if push_interval == 0:
 	print("Please set PUSH_INTERVAL env variable")
 	exit()
+else:
+	print("PUSH_INTERVAL :%d" , push_interval)
 
 if push_interval == 1:
 	delay = 6*60*60*1000 # 6 hour milisecond
