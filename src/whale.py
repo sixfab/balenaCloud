@@ -82,7 +82,7 @@ class RockBlockClient (rockBlockProtocol):
     def messageCheck(self):
         rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
         rb.messageCheck()
-		time.sleep(1)
+        time.sleep(1)
         rb.close()
 
 
