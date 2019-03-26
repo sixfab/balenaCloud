@@ -49,7 +49,7 @@ def rockblock_service(payload):
 def sendToServer():
 	payload = {'timestamp': str(gpsTimestamp), 'lat': gpsLat, 'lon':gpsLon}
 	print(str(payload))
-    time.sleep(1)
+	time.sleep(1)
 	_thread.start_new_thread( rockblock_service, (payload,))
 
 
