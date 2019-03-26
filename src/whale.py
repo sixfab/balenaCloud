@@ -133,6 +133,10 @@ while True:
 		if( ( gpsMinute == 0 )  and gpsSecond == 0 ):
 			
 			sendToServer()
+
+	if gpsSecond == 0:
+		rockblock_service.messageCheck()
+	
 	time.sleep(0.5)
 
 ser.close()
