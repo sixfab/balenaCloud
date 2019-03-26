@@ -92,6 +92,11 @@ def rockblock_service(payload):
 	print("RockBlock Thread Started...")
 	RockBlockClient().send(str(payload))
 	print("RockBlock Thread Finished...")
+	
+def rockblock_check(payload):
+	print("RockBlock Rx Check Thread Started...")
+	RockBlockClient().messageCheck()
+	print("RockBlock Rx Check  Thread Finished...")
 
 
 def sendToServer():
@@ -183,7 +188,7 @@ while True:
 			sendToServer()
 
 	if ( ( gpsMinute % 15 ) == 0 ) and gpsSecond == 0:
-		RockBlockClient().messageCheck()
+		_thread.start_new_thread( rockblock_check, ())
 	
 	time.sleep(0.5)
 
