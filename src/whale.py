@@ -23,8 +23,9 @@ push_interval = int(os.getenv('PUSH_INTERVAL', 0))
 
 class RockBlockClient (rockBlockProtocol):
 
-	def __init__(self):
+    def __init__(self):
         self.rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
+
     
     def send(self, msg):
       
