@@ -187,7 +187,7 @@ while True:
 			
 			sendToServer()
 
-	if ( ( gpsMinute % 15 ) == 0 ) and gpsSecond == 0:
+	if ( ( gpsMinute % 1 ) == 0 ) and gpsSecond == 0:
 		_thread.start_new_thread( rockblock_check, ())
 	
 	time.sleep(0.5)
