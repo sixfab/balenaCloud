@@ -47,6 +47,7 @@ class RockBlockClient (rockBlockProtocol):
         global push_interval
         print("rockBlockRxReceived ",str(mtmsn),data)
         push_interval=int(data)
+        setParameter()
         self.rb.close()
 
     def messageCheck(self):
@@ -67,31 +68,36 @@ def sendToServer():
 	_thread.start_new_thread( rockblock_service, (payload,))
 
 
+
+
+def setParameter():
+	if push_interval == 0:
+		print("Please set PUSH_INTERVAL env variable")
+		exit()
+	else:
+		print("PUSH_INTERVAL :" , push_interval)
+
+	if push_interval == 1:
+		delay = 6*60*60 # 6 hour second
+
+	elif push_interval == 2:
+		delay = 1*60*60 # 1 hour second
+
+	elif push_interval == 3:
+		delay = 30*60 # 30 Minute second
+
+	elif push_interval == 4:
+		delay = 15*60 # 15 Minute second
+
+	elif push_interval == 5: # Every 15 minute UTC
+		targetMinute = 15
+
+	elif push_interval == 6: # Every 30 minute UTC
+		targetMinute = 30
+
 now = int(time.time())
 
-if push_interval == 0:
-	print("Please set PUSH_INTERVAL env variable")
-	exit()
-else:
-	print("PUSH_INTERVAL :" , push_interval)
-
-if push_interval == 1:
-	delay = 6*60*60 # 6 hour second
-
-elif push_interval == 2:
-	delay = 1*60*60 # 1 hour second
-
-elif push_interval == 3:
-	delay = 30*60 # 30 Minute second
-
-elif push_interval == 4:
-	delay = 15*60 # 15 Minute second
-
-elif push_interval == 5: # Every 15 minute UTC
-	targetMinute = 15
-
-elif push_interval == 6: # Every 30 minute UTC
-	targetMinute = 30
+setParameter()
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
