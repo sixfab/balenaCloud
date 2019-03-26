@@ -45,7 +45,7 @@ class RockBlockClient (rockBlockProtocol):
         global delay
         global targetMinute
 
-		os.environ['PUSH_INTERVAL'] = str(push_interval)
+        os.environ['PUSH_INTERVAL'] = str(push_interval)
 
         if push_interval == 0:
                 print("Please set PUSH_INTERVAL env variable")
