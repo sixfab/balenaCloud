@@ -20,7 +20,6 @@ uartPort = "/dev/serial0"
 
 os.system("systemctl disable serial-getty@ttyS0.service") # Disable getty on ttyS0
 
-os.environ['PUSH_INTERVAL'] = "7"
 push_interval = int(os.getenv('PUSH_INTERVAL', 0))
 
 
@@ -45,6 +44,8 @@ class RockBlockClient (rockBlockProtocol):
     def setParameter(self):
         global delay
         global targetMinute
+
+		os.environ['PUSH_INTERVAL'] = str(push_interval)
 
         if push_interval == 0:
                 print("Please set PUSH_INTERVAL env variable")
