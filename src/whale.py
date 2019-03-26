@@ -22,14 +22,15 @@ os.system("systemctl disable serial-getty@ttyS0.service") # Disable getty on tty
 push_interval = int(os.getenv('PUSH_INTERVAL', 0))
 
 class RockBlockClient (rockBlockProtocol):
+
+	def __init__(self):
+        self.rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
     
     def send(self, msg):
       
-        rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
+        self.rb.sendMessage(msg)      
         
-        rb.sendMessage(msg)      
-        
-        rb.close()
+        self.rb.close()
         
     def rockBlockTxStarted(self):
         print ("rockBlockTxStarted")
@@ -43,11 +44,10 @@ class RockBlockClient (rockBlockProtocol):
     def rockBlockRxReceived(self,mtmsn,data):
         print("rockBlockRxReceived ",str(mtmsn),data)
         push_interval=int(data)
+		self.rb.close()
 
     def messageCheck(self):
-        rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
-        rb.messageCheck()      
-        rb.close()
+        self.rb.messageCheck()
 
 
 
