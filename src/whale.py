@@ -10,7 +10,8 @@ from rockBlock import rockBlockProtocol
 delay = 0
 gpsLat = 0
 gpsLon = 0
-gpsTimestamp = 0
+gpsMinute = 0
+gpsSecond = 0
 
 gpsReset = 7
 uartPort = "/dev/serial0"
@@ -99,7 +100,8 @@ while True:
 
 				gpsLat = msg.latitude
 				gpsLon = msg.longitude
-				gpsTimestamp = msg.timestamp
+				gpsMinute = msg.timestamp.minute
+				gpsSecond = msg.timestamp.second
 
 
 	if push_interval >=1 and push_interval <= 4:
@@ -112,13 +114,13 @@ while True:
 
 	elif push_interval >=5 and  push_interval <= 6:
 
-		if( ( ( gpsTimestamp.minute % targetMinute ) == 0 )  and gpsTimestamp.second == 0):
+		if( ( ( gpsMinute % targetMinute ) == 0 )  and gpsSecond == 0):
 
 			sendToServer()
 
 	elif push_interval == 7:
 
-		if( ( gpsTimestamp.minute == 0 )  and gpsTimestamp.second == 0 ):
+		if( ( gpsMinute == 0 )  and gpsSecond == 0 ):
 			
 			sendToServer()
 
