@@ -43,9 +43,11 @@ class RockBlockClient (rockBlockProtocol):
         print ("rockBlockTxSuccess " + str(momsn))
 
     def rockBlockRxReceived(self,mtmsn,data):
+
+        global push_interval
         print("rockBlockRxReceived ",str(mtmsn),data)
         push_interval=int(data)
-		self.rb.close()
+        self.rb.close()
 
     def messageCheck(self):
         self.rb.messageCheck()
