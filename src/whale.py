@@ -4,7 +4,7 @@ import pynmea2
 import RPi.GPIO as GPIO
 import _thread
 import rockBlock
-from datetime import datetime
+import time
 from rockBlock import rockBlockProtocol
 
 delay = 0
@@ -18,8 +18,6 @@ uartPort = "/dev/serial0"
 os.system("systemctl disable serial-getty@ttyS0.service") # Disable getty on ttyS0
 
 push_interval = int(os.getenv('PUSH_INTERVAL', 0))
-
-print(push_interval)
 
 class RockBlockClient (rockBlockProtocol):
     
@@ -52,25 +50,25 @@ def sendToServer():
 	_thread.start_new_thread( rockblock_service, (payload,))
 
 
-now = datetime.now()
+now = int(time.time())
 
 if push_interval == 0:
 	print("Please set PUSH_INTERVAL env variable")
 	exit()
 else:
-	print("PUSH_INTERVAL :%d" , push_interval)
+	print("PUSH_INTERVAL :" , push_interval)
 
 if push_interval == 1:
-	delay = 6*60*60*1000 # 6 hour milisecond
+	delay = 6*60*60 # 6 hour second
 
 elif push_interval == 2:
-	delay = 1*60*60*1000 # 1 hour milisecond
+	delay = 1*60*60 # 1 hour second
 
 elif push_interval == 3:
-	delay = 30*60*1000 # 30 Minute milisecond
+	delay = 30*60 # 30 Minute second
 
 elif push_interval == 4:
-	delay = 15*60*1000 # 15 Minute milisecond
+	delay = 15*60 # 15 Minute second
 
 elif push_interval == 5: # Every 15 minute UTC
 	targetMinute = 15
@@ -106,7 +104,7 @@ while True:
 
 	if push_interval >=1 and push_interval <= 4:
 		
-		if datetime.now() >= now + delay:
+		if int(time.time()) >= now + delay:
 
 			now = datetime.now()
 
