@@ -11,8 +11,8 @@ delay = 0
 gpsLat = 0
 gpsLon = 0
 gpsTimestamp = 0
-gpsMinute = 0
-gpsSecond = 0
+gpsMinute = -1
+gpsSecond = -1
 
 gpsReset = 7
 uartPort = "/dev/serial0"
@@ -49,6 +49,7 @@ def rockblock_service(payload):
 def sendToServer():
 	payload = {'timestamp': str(gpsTimestamp), 'lat': gpsLat, 'lon':gpsLon}
 	print(str(payload))
+        time.sleep(1)
 	_thread.start_new_thread( rockblock_service, (payload,))
 
 
@@ -90,8 +91,9 @@ if(ser.isOpen() == False):
 print("Application Started")
 
 while True:
-	if ser.inWaiting() > 0 :
-		recv=ser.readline().decode('utf-8')
+	while ser.inWaiting() > 0:
+		recv=ser.readline()
+		recv = recv.decode('utf-8')
 	
 		if recv.startswith("$GPGGA"):
 			#print(recv)
@@ -125,7 +127,7 @@ while True:
 		if( ( gpsMinute == 0 )  and gpsSecond == 0 ):
 			
 			sendToServer()
-
+	time.sleep(0.5)
 
 ser.close()
 GPIO.cleanup()
