@@ -17,7 +17,7 @@ uartPort = "/dev/serial0"
 
 os.system("systemctl disable serial-getty@ttyS0.service") # Disable getty on ttyS0
 
-push_interval = os.getenv('PUSH_INTERVAL', 0)
+push_interval = int(os.getenv('PUSH_INTERVAL', 0))
 
 print(push_interval)
 
