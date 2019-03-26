@@ -10,6 +10,7 @@ from rockBlock import rockBlockProtocol
 delay = 0
 gpsLat = 0
 gpsLon = 0
+gpsTimestamp = 0
 gpsMinute = 0
 gpsSecond = 0
 
@@ -100,6 +101,7 @@ while True:
 
 				gpsLat = msg.latitude
 				gpsLon = msg.longitude
+				gpsTimestamp = msg.timestamp
 				gpsMinute = msg.timestamp.minute
 				gpsSecond = msg.timestamp.second
 
