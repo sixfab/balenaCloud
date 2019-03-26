@@ -106,7 +106,7 @@ while True:
 		
 		if int(time.time()) >= now + delay:
 
-			now = datetime.now()
+			now = int(time.time())
 
 			sendToServer()
 
