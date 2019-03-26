@@ -20,19 +20,16 @@ uartPort = "/dev/serial0"
 
 os.system("systemctl disable serial-getty@ttyS0.service") # Disable getty on ttyS0
 
+
 push_interval = int(os.getenv('PUSH_INTERVAL', 0))
 
 class RockBlockClient (rockBlockProtocol):
 
-    def __init__(self):
-        self.rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
-
-    
     def send(self, msg):
       
-        self.rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
-        self.rb.sendMessage(msg)
-        self.rb.close()
+        rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
+        rb.sendMessage(msg)
+        rb.close()
         
     def rockBlockTxStarted(self):
         print ("rockBlockTxStarted")
@@ -42,20 +39,51 @@ class RockBlockClient (rockBlockProtocol):
         
     def rockBlockTxSuccess(self,momsn):
         print ("rockBlockTxSuccess " + str(momsn))
+    
+    def setParameter(self):
+        global delay
+        global targetMinute
+
+        if push_interval == 0:
+                print("Please set PUSH_INTERVAL env variable")
+                exit()
+        else:
+                print("PUSH_INTERVAL :" , push_interval)
+
+        if push_interval == 1:
+                delay = 6*60*60 # 6 hour second
+
+        elif push_interval == 2:
+                delay = 1*60*60 # 1 hour second
+
+        elif push_interval == 3:
+                delay = 30*60 # 30 Minute second
+
+        elif push_interval == 4:
+                delay = 15*60 # 15 Minute second
+
+        elif push_interval == 5: # Every 15 minute UTC
+                targetMinute = 15
+
+        elif push_interval == 6: # Every 30 minute UTC
+                targetMinute = 30
 
     def rockBlockRxReceived(self,mtmsn,data):
 
         global push_interval
+        global setParameter
         print("rockBlockRxReceived ",str(mtmsn),data)
         push_interval=int(data)
-        setParameter()
+        self.setParameter()
 
     def messageCheck(self):
-        self.rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
-        self.rb.messageCheck()
-        self.rb.close()
+        rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
+        rb.messageCheck()
+        rb.close()
 
 
+RockBlockClient().setParameter()
+RockBlockClient().messageCheck()
 
 def rockblock_service(payload):
 	print("RockBlock Thread Started...")
@@ -68,7 +96,6 @@ def sendToServer():
 	print(str(payload))
 	time.sleep(1)
 	_thread.start_new_thread( rockblock_service, (payload,))
-
 
 
 
@@ -102,8 +129,6 @@ def setParameter():
 		targetMinute = 30
 
 now = int(time.time())
-
-setParameter()
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
@@ -154,7 +179,7 @@ while True:
 			
 			sendToServer()
 
-	if gpsSecond == 0:
+	if gpsMinute== 15 and gpsSecond == 0:
 		RockBlockClient().messageCheck()
 	
 	time.sleep(0.5)
