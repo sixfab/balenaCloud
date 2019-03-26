@@ -30,8 +30,8 @@ class RockBlockClient (rockBlockProtocol):
     
     def send(self, msg):
       
-        self.rb.sendMessage(msg)      
-        
+        self.rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
+        self.rb.sendMessage(msg)
         self.rb.close()
         
     def rockBlockTxStarted(self):
@@ -49,10 +49,11 @@ class RockBlockClient (rockBlockProtocol):
         print("rockBlockRxReceived ",str(mtmsn),data)
         push_interval=int(data)
         setParameter()
-        self.rb.close()
 
     def messageCheck(self):
+        self.rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
         self.rb.messageCheck()
+        self.rb.close()
 
 
 
