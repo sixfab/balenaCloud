@@ -44,6 +44,11 @@ class RockBlockClient (rockBlockProtocol):
         print("rockBlockRxReceived ",str(mtmsn),data)
         push_interval=int(data)
 
+    def messageCheck(self):
+        rb = rockBlock.rockBlock("/dev/ttyUSB0", self)
+        rb.messageCheck()      
+        rb.close()
+
 
 
 def rockblock_service(payload):
@@ -135,7 +140,7 @@ while True:
 			sendToServer()
 
 	if gpsSecond == 0:
-		rockblock_service.messageCheck()
+		RockBlockClient().messageCheck()
 	
 	time.sleep(0.5)
 
