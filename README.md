@@ -24,6 +24,7 @@ NOTE : Please enable uart from balena device configuration page!
 Screenshot : ![Enable Uart](https://raw.githubusercontent.com/sixfab/balenaCloud/master/enable_uart.png)
 
 
+
 [balena-link]:https://balena.io/
 [signup-page]:https://dashboard.balena-cloud.com/signup
 [gettingStarted-link]:http://balena.io/docs/learn/getting-started/
